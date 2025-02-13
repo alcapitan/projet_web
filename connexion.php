@@ -32,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Si aucune erreur, vérifier les identifiants
     if (empty($errors)) {
+        // formatage des données
+        $email = strtolower($email);
+        
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':email' => $email]);
@@ -70,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php endif; ?>
 
-    <form action="login.php" method="POST">
+    <form action="connexion.php" method="POST">
         <label for="email">Email :</label>
         <input type="email" name="email" id="email" required><br>
 

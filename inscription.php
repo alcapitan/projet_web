@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
-    $first_name = trim($_POST['first_name'] ?? '');
-    $last_name = trim($_POST['last_name'] ?? '');
-    $date_of_birth = $_POST['date_of_birth'] ?? '';
+    $prenom = trim($_POST['prenom'] ?? '');
+    $nom = trim($_POST['nom'] ?? '');
+    $date_naissance = $_POST['date_naissance'] ?? '';
 
     // Validation des champs
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -36,27 +36,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password !== $confirm_password) {
         $errors[] = "Les mots de passe ne correspondent pas.";
     }
-    if (empty($first_name) || empty($last_name)) {
+    if (empty($prenom) || empty($nom)) {
         $errors[] = "Le prénom et le nom sont obligatoires.";
     }
 
     // Si aucune erreur, insérer l'utilisateur
     if (empty($errors)) {
+        // formatage des données
+        $email = strtolower($email);
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $prenom = strtolower($prenom);
+        $nom = strtolower($nom);
         
-        $sql = "INSERT INTO users (email, password, first_name, last_name, date_of_birth) 
-                VALUES (:email, :password, :first_name, :last_name, :date_of_birth)";
+        $sql = "INSERT INTO users (email, password, prenom, nom, date_naissance) 
+                VALUES (:email, :password, :prenom, :nom, :date_naissance)";
         $stmt = $pdo->prepare($sql);
         
         try {
             $stmt->execute([
                 ':email' => $email,
                 ':password' => $hashed_password,
-                ':first_name' => $first_name,
-                ':last_name' => $last_name,
-                ':date_of_birth' => $date_of_birth ?: null
+                ':prenom' => $prenom,
+                ':nom' => $nom,
+                ':date_naissance' => $date_naissance ?: null
             ]);
-            header("Location: login.php");
+            header("Location: connexion.php");
             exit();
         } catch (PDOException $e) {
             $errors[] = "Erreur lors de l'inscription : " . $e->getMessage();
@@ -87,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form action="inscription.php" method="POST">
         <label for="email">Email :</label>
-        <input type="email" name="email" id="email" required><br>
+        <input type="email" name="email" id="email" value="<?= htmlspecialchars($email) ?>" required><br>
 
         <label for="password">Mot de passe :</label>
         <input type="password" name="password" id="password" required><br>
@@ -95,18 +99,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="confirm_password">Confirmez le mot de passe :</label>
         <input type="password" name="confirm_password" id="confirm_password" required><br>
 
-        <label for="first_name">Prénom :</label>
-        <input type="text" name="first_name" id="first_name" required><br>
+        <label for="prenom">Prénom :</label>
+        <input type="text" name="prenom" id="prenom" value="<?= htmlspecialchars($prenom) ?>" required><br>
 
-        <label for="last_name">Nom :</label>
-        <input type="text" name="last_name" id="last_name" required><br>
+        <label for="nom">Nom :</label>
+        <input type="text" name="nom" id="nom" value="<?= htmlspecialchars($nom) ?>" required><br>
 
-        <label for="date_of_birth">Date de naissance :</label>
-        <input type="date" name="date_of_birth" id="date_of_birth"><br>
+        <label for="date_naissance">Date de naissance :</label>
+        <input type="date" name="date_naissance" id="date_naissance"  value="<?= htmlspecialchars($date_naissance) ?>"><br>
 
         <button type="submit">S'inscrire</button>
     </form>
 
-    <a href="login.php">Se connecter</a>
+    <a href="connexion.php">Se connecter</a>
 </body>
 </html>
