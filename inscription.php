@@ -94,10 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="email" name="email" id="email" value="<?= htmlspecialchars(isset($email) ? $email : 'a@mail.fr') ?>" required><br>
 
         <label for="password">Mot de passe :</label>
-        <input type="password" name="password" id="password" required><br>
+        <input type="password" name="password" id="password" value="<?= htmlspecialchars('29122005') ?>" required><br>
 
         <label for="confirm_password">Confirmez le mot de passe :</label>
-        <input type="password" name="confirm_password" id="confirm_password" required><br>
+        <input type="password" name="confirm_password" id="confirm_password" value="<?= htmlspecialchars('29122005') ?>" required><br>
 
         <label for="prenom">Prénom :</label>
         <input type="text" name="prenom" id="prenom" value="<?= htmlspecialchars(isset($prenom) ? $prenom : 'Alexandre') ?>" required><br>

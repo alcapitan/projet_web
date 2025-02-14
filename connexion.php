@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="email" name="email" id="email" value="<?= htmlspecialchars(isset($email) ? $email : 'admin@monsite.fr') ?>" required><br>
 
         <label for="password">Mot de passe :</label>
-        <input type="password" name="password" id="password" value="<?= htmlspecialchars(isset($password) ? $password : '29122005') ?>" required><br>
+        <input type="password" name="password" id="password" value="<?= htmlspecialchars('29122005') ?>" required><br>
 
         <button type="submit">Se connecter</button>
     </form>
