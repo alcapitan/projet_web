@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <a href="inscription.php">S'inscrire</a>
     <button><a href="index.php">Retour à l'accueil</a></button>
-    
+    BONJOUR 
 </body>
 
 </html>
