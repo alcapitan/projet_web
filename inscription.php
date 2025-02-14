@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form action="inscription.php" method="POST">
         <label for="email">Email :</label>
-        <input type="email" name="email" id="email" value="<?= htmlspecialchars($email) ?>" required><br>
+        <input type="email" name="email" id="email" value="<?= htmlspecialchars(isset($email) ? $email : 'a@mail.fr') ?>" required><br>
 
         <label for="password">Mot de passe :</label>
         <input type="password" name="password" id="password" required><br>
@@ -100,13 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="confirm_password" id="confirm_password" required><br>
 
         <label for="prenom">Prénom :</label>
-        <input type="text" name="prenom" id="prenom" value="<?= htmlspecialchars($prenom) ?>" required><br>
+        <input type="text" name="prenom" id="prenom" value="<?= htmlspecialchars(isset($prenom) ? $prenom : 'Alexandre') ?>" required><br>
 
         <label for="nom">Nom :</label>
-        <input type="text" name="nom" id="nom" value="<?= htmlspecialchars($nom) ?>" required><br>
+        <input type="text" name="nom" id="nom" value="<?= htmlspecialchars(isset($nom) ? $nom : 'BOYER') ?>" required><br>
 
         <label for="date_naissance">Date de naissance :</label>
-        <input type="date" name="date_naissance" id="date_naissance"  value="<?= htmlspecialchars($date_naissance) ?>"><br>
+        <input type="date" name="date_naissance" id="date_naissance"  value="<?= htmlspecialchars(isset($date_naissance) ? $date_naissance : '2005-12-29') ?>"><br>
 
         <button type="submit">S'inscrire</button>
     </form>
