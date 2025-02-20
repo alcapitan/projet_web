@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Escape Game "Aller au Travail"</title>
+  <title>Réservation d'escape game</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
-      --primary: #1f4037;
-      --secondary: #99f2c8;
+      --primary: #402d1f;
+      --secondary: #f2be99;
       --bg-dark: #222;
       --text-light: #fff;
     }
@@ -32,7 +32,12 @@
     .hero {
       position: relative;
       height: 100vh;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background-image: url('assets/images/illustration_accueil.webp');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      background-color: rgba(0, 0, 0, 0.3);
+      background-blend-mode: darken;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -243,38 +248,19 @@
   <!-- Hero Section with Animations -->
   <header id="hero" class="hero">
     <div class="hero-content">
-      <h1>Évadez-vous du quotidien !</h1>
-      <p>Réservez votre escape game "Aller au Travail" et vivez une aventure hors du commun dans un univers décalé.</p>
+      <h1>Vivez des sensations fortes !</h1>
+      <p>Réservez votre escape game dans une de nos nombreuses boutiques.</p>
       <a href="#booking" class="btn btn-primary btn-lg">Réserver Maintenant</a>
     </div>
   </header>
-
-  <!-- About Section -->
-  <section id="about">
-    <div class="container">
-      <h2 class="section-title">À Propos de Nous</h2>
-      <p>
-        Escape Game "Aller au Travail" vous plonge dans une ambiance surprenante où la routine se transforme en défi ludique. Notre équipe passionnée a conçu un scénario immersif pour vous faire oublier le quotidien et stimuler votre esprit d'équipe. Préparez-vous à relever des énigmes et à vivre l'exception !
-      </p>
-    </div>
-  </section>
 
   <!-- Booking Section -->
   <section id="booking" class="booking-section">
     <div class="container">
       <div class="booking-card">
-        <h2>Formulaire de Réservation</h2>
+        <h2>Réservez maintenant !</h2>
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="fullName" class="form-label">Nom Complet</label>
-              <input type="text" class="form-control" id="fullName" placeholder="Votre nom complet">
-            </div>
-            <div class="col-md-6">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="Votre email">
-            </div>
-          </div>
+          <i>Commentaire alex : Vous devez être connectés pour réserver. + rajouter boutique et activités</i>
           <div class="row g-3 mt-3">
             <div class="col-md-4">
               <label for="date" class="form-label">Date</label>
@@ -296,6 +282,18 @@
       </div>
     </div>
   </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">À Propos de Nous</h2>
+      <p>
+        Escape Game "Aller au Travail" vous plonge dans une ambiance surprenante où la routine se transforme en défi ludique. Notre équipe passionnée a conçu un scénario immersif pour vous faire oublier le quotidien et stimuler votre esprit d'équipe. Préparez-vous à relever des énigmes et à vivre l'exception !
+      </p>
+    </div>
+  </section>
+
+  <i>Supprimer nos services exclusifs et témoignages et contactez-nous, et rajouter la faq, conformément à ce qui est demandé en consigne.</i>
 
   <!-- Services Section -->
   <section id="services">

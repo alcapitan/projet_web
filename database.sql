@@ -9,8 +9,8 @@ CREATE TABLE utilisateur (
     nom VARCHAR(30) NOT NULL,
     prenom VARCHAR(20) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    mot_de_passe VARCHAR(60) NOT NULL, -- Stocké en hashé
-    role VARCHAR(20) NOT NULL CHECK (role IN ('client', 'admin')) -- Définition des rôles
+    mot_de_passe VARCHAR(60) NOT NULL, -- Stocké en hashé Bcrypt
+    role VARCHAR(20) NOT NULL DEFAULT 'client' CHECK (role IN ('client', 'admin')) -- Définition des rôles
 );
 
 -- lieux physiques des escape games
