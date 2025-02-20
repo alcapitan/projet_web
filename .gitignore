@@ -1,1 +1,6 @@
+# Fichiers de sécurité critiques
 config.ini
+
+# Fichiers volumineux et/ou inutiles
+save
+.vscode

@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Identifiants corrects, démarrage de la session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
-            header("Location: dashboard.php");
+            header("Location: index.php");
             exit();
         } else {
             $errors[] = "Email ou mot de passe incorrect.";
@@ -84,8 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <a href="inscription.php">S'inscrire</a>
-    <button><a href="index.php">Retour à l'accueil</a></button>
-    
+    <a href="index.php"><button>Retour à l'accueil</button></a>
 </body>
 
 </html>

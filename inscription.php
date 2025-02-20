@@ -112,5 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 
     <a href="connexion.php">Se connecter</a>
+    <a href="index.php"><button>Retour à l'accueil</button></a>
 </body>
 </html>
