@@ -6,48 +6,63 @@ require_once 'bdd.php';
  */
 class Authentification
 {
-    private PDO $connexion;
-
     /**
-     * Constructeur de la classe Authentification
-     * récupère la connexion à la base de données
+     * Cette méthode permet de vérifier si un email est déjà utilisé.
      */
-    public function __construct()
+    private static function emailExiste($email): bool
     {
-        $bdd = Bdd::getInstance();
-        $connexion = $bdd->getConnexion();
+        // Récupération de la connexion à la base de données
+        $connexion = Bdd::getConnexion();
+
+        // Création de la requête SQL
+        $sql = "SELECT * FROM utilisateur WHERE email = :email";
+        $stmt = $connexion->prepare($sql);
+
+        try {
+            // Remplissage des variables de manière sécurisée
+            $stmt->execute([':email' => $email]);
+            $user = $stmt->fetch();
+            return $user ? true : false;
+        } catch (PDOException $e) {
+            throw new AuthentificationException("Erreur PostgreSQL lors de la connexion : " . $e->getMessage());
+        }
     }
 
     /**
      * Cette méthode permet d'inscrire un utilisateur dans la base de données.
      */
-    public function inscription($email, $password, $prenom, $nom)
+    public static function inscription($email, $password, $prenom, $nom): AuthentificationRetour
     {
-        $errors = [];
+        // Récupération de la connexion à la base de données
+        $connexion = Bdd::getConnexion();
+
+        $listeErreurs = new AuthentificationRetour();
 
         // Validation des champs
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "L'email est invalide.";
+            $listeErreurs->addError("L'email est invalide.");
+        } else if (self::emailExiste($email)) {
+            $listeErreurs->addError("L'email est déjà utilisé.");
         }
         if (empty($password) || strlen($password) < 6) {
-            $errors[] = "Le mot de passe doit contenir au moins 6 caractères.";
+            $listeErreurs->addError("Le mot de passe doit contenir au moins 6 caractères.");
         }
         if (empty($prenom) || empty($nom)) {
-            $errors[] = "Le prénom et le nom sont obligatoires.";
+            $listeErreurs->addError("Le prénom et le nom sont obligatoires.");
         }
 
         // Si aucune erreur, insérer l'utilisateur dans la base de données
-        if (empty($errors)) {
+        if ($listeErreurs->hasNoErrors()) {
             // Formatage des données
             $email = strtolower($email);
-            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT); // Hashage du mot de passe pour la sécurité
             $prenom = strtolower($prenom);
             $nom = strtolower($nom);
 
             // Création de la requête SQL
             $sql = "INSERT INTO utilisateur (email, password, prenom, nom) 
                     VALUES (:email, :password, :prenom, :nom)";
-            $stmt = $this->connexion->prepare($sql);
+            $stmt = $connexion->prepare($sql);
 
             try {
                 // Remplissage des variables de manière sécurisée
@@ -57,40 +72,43 @@ class Authentification
                     ':prenom' => $prenom,
                     ':nom' => $nom
                 ]);
-                //TODO: où rediriger ??
+                header('Location: index.php');
                 exit();
             } catch (PDOException $e) {
-                $errors[] = "Erreur PostgreSQL lors de l'inscription : " . $e->getMessage();
+                throw new AuthentificationException("Erreur PostgreSQL lors de la connexion : " . $e->getMessage());
             }
         }
 
-        // Retourne les erreurs
-        return $errors;
+        // Retourne les erreurs potentielles
+        return $listeErreurs;
     }
 
     /**
      * Cette méthode permet de connecter un utilisateur.
      */
-    public function connexion($email, $password)
+    public static function connexion($email, $password): AuthentificationRetour
     {
-        $errors = [];
+        // Récupération de la connexion à la base de données
+        $connexion = Bdd::getConnexion();
+
+        $listeErreurs = new AuthentificationRetour();
 
         // Validation des champs
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "L'email est invalide.";
+            $listeErreurs->addError("L'email est invalide.");
         }
         if (empty($password)) {
-            $errors[] = "Le mot de passe est obligatoire.";
+            $listeErreurs->addError("Le mot de passe est obligatoire.");
         }
 
         // Si aucune erreur, vérifier les informations de connexion
-        if (empty($errors)) {
+        if ($listeErreurs->hasNoErrors()) {
             // Formatage des données
             $email = strtolower($email);
 
             // Création de la requête SQL
             $sql = "SELECT * FROM utilisateur WHERE email = :email";
-            $stmt = $this->connexion->prepare($sql);
+            $stmt = $connexion->prepare($sql);
 
             try {
                 // Remplissage des variables de manière sécurisée
@@ -101,28 +119,72 @@ class Authentification
                     session_start();
                     $_SESSION['user'] = $user;
 
-                    //TODO: où rediriger ??
+                    header('Location: index.php');
                     exit();
                 } else {
-                    $errors[] = "Email ou mot de passe incorrect.";
+                    $listeErreurs->addError("L'email ou le mot de passe est incorrect.");
                 }
             } catch (PDOException $e) {
-                $errors[] = "Erreur PostgreSQL lors de la connexion : " . $e->getMessage();
+                throw new AuthentificationException("Erreur PostgreSQL lors de la connexion : " . $e->getMessage());
             }
         }
 
         // Retourne les erreurs
-        return $errors;
+        return $listeErreurs;
     }
 
     /**
      * Cette méthode permet de déconnecter un utilisateur.
      */
-    public function deconnexion()
+    public static function deconnexion()
     {
+        // Supprimer toutes les variables de session
+        session_unset();
+        // Détruire la session
         session_destroy();
 
-        //TODO: où rediriger ??
-        exit();
+        // Rediriger l'utilisateur
+        header("Location: index.php");
+        exit;
+    }
+}
+
+/**
+ * Classe simili exception pour les erreurs lié à l'authentification.
+ * Les potentielles multiples erreurs doivent être retournées à l'interface d'authentification.
+ */
+class AuthentificationRetour
+{
+    private array $errors;
+
+    public function __construct()
+    {
+        $this->errors = [];
+    }
+
+    public function addError(string $error)
+    {
+        $this->errors[] = $error;
+    }
+
+    public function hasNoErrors(): bool
+    {
+        return empty($this->errors);
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+}
+
+/**
+ * Exception personnalisée pour les erreurs lié à l'authentification.
+ */
+class AuthentificationException extends Exception
+{
+    public function __construct(string $message)
+    {
+        parent::__construct($message);
     }
 }

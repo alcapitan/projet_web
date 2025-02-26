@@ -1,65 +1,32 @@
 <?php
-session_start();
-
-// Connexion à la base de données
-$host = 'localhost';
-$dbname = 'etd';
-// Charger la configuration depuis config.ini
-$config = parse_ini_file('config.ini', true);
-$user = $config['database']['user'];
-$password = $config['database']['password'];
-
-try {
-    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
-}
-
-$errors = [];
+require_once 'models/authentification.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
+    // Récupérer les données du formulaire
+    $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Validation des champs
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "L'email est invalide.";
-    }
-    if (empty($password)) {
-        $errors[] = "Le mot de passe est requis.";
+    // Appeler la méthode inscription
+    $listeErreurs = Authentification::connexion($email, $password);
+    if ($listeErreurs->hasNoErrors()) {
+        header("Location: index.php");
+        exit();
     }
 
-    // Si aucune erreur, vérifier les identifiants
-    if (empty($errors)) {
-        // formatage des données
-        $email = strtolower($email);
-        
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            // Identifiants corrects, démarrage de la session
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_email'] = $user['email'];
-            header("Location: index.php");
-            exit();
-        } else {
-            $errors[] = "Email ou mot de passe incorrect.";
-        }
-    }
+    // Récupérer les erreurs pour les afficher plus loin dans le code
+    $errors = $listeErreurs->getErrors();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
 </head>
+
 <body>
     <h1>Connexion</h1>
 
