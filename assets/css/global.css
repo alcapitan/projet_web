@@ -1,0 +1,29 @@
+/* COLORS (((((((((((((((((((()))))))))))))))))))) */
+:root {
+  --primary: rgb(47, 47, 47);
+  --secondary: rgb(251, 186, 139);
+  --accent: rgb(255, 232, 216);
+  --bg-dark: #222;
+  --text-light: #fff;
+  --text-dark: #333;
+}
+
+/* simplification des box */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--primary);
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  flex: 1;
+}

@@ -1,0 +1,260 @@
+/* MAIN SECTION  ((((((((((((((((())))))))))))))))) */
+img {
+  height: 300px;
+  filter: drop-shadow(0 0 40px rgb(251, 186, 139));
+}
+
+#missions {
+  color: var(--text-light);
+}
+
+#missions h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.missions-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mission-card {
+  background: var(--primary);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 2px solid var(--secondary);
+  box-shadow: 0 0 20px var(--secondary);
+  background-color: rgba(47, 47, 47, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+.mission-card i {
+  font-size: 3rem;
+  color: var(--secondary);
+}
+
+.mission-card h3 {
+  margin-top: 1rem;
+}
+
+.mission-card p {
+  margin: 1rem 0;
+}
+
+.mission-card span {
+  color: var(--secondary);
+}
+
+.mission-card .btn2 {
+  font-size: 0.9em;
+  padding: 10px 20px;
+  display: inline-block;
+  text-decoration: none;
+  background: var(--secondary);
+  color: var(--text-light);
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* main Section */
+.main-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.main {
+  position: relative;
+  /* background: url('assets/images/illustration_accueil.webp') center/cover no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-light);
+  padding: 20px;
+}
+
+/* RESERVATION SECTION (((((((((((((((((((((((((((((((((((( */
+.booking-section {
+  position: relative;
+  z-index: 2;
+  margin-top: -250px;
+  padding: 4rem 0;
+  text-align: center;
+  color: white;
+}
+
+.booking-card {
+  background: var(--primary);
+  padding: 2rem;
+  margin: auto;
+  width: 50%;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 5px solid var(--secondary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--accent);
+  border-radius: 10px;
+  border: 2px solid var(--secondary);
+  font-weight: 600;
+}
+
+.btn-primary {
+  margin-top: 20px;
+  background: #111;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 50px;
+  width: 100%;
+  cursor: pointer;
+  border: 5px solid var(--secondary);
+  /* transition: background 0.3s; */
+}
+
+/* A PROPOS SECTION (((((((((((((((()))))))))))))))) */
+#about {
+  padding: 4rem;
+  text-align: center;
+  background-color: rgba(47, 47, 47, 0.7);
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+
+#about p {
+  max-width: 600px;
+  margin: auto;
+}
+
+/* AUTRES (((((((((((((((((((()))))))))))))))))))) */
+.space-gap {
+  height: 200px;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+  color: var(--secondary);
+  font-size: 4rem;
+  cursor: pointer;
+}
+
+/* Animation flèche scroll */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0) translateX(-50%);
+  }
+
+  40% {
+    transform: translateY(-30px) translateX(-50%);
+  }
+
+  60% {
+    transform: translateY(-15px) translateX(-50%);
+  }
+}
+
+/* STATISTICS SECTION */
+#stats {
+  padding: 6rem;
+  margin-top: 50px;
+  color: var(--text-light);
+  text-align: center;
+  background-color: rgba(47, 47, 47, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+#stats h2 {
+  margin-bottom: 4rem;
+  color: var(--secondary);
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.stat-card {
+  padding: 2.5rem;
+  background: rgba(47, 47, 47, 0.7);
+  border-radius: 15px;
+  border: 2px solid var(--secondary);
+  min-width: 250px;
+  backdrop-filter: blur(10px);
+}
+
+.stat-card i {
+  font-size: 3.5rem;
+  color: var(--secondary);
+  margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+  font-size: 2.5rem;
+  margin: 1rem 0;
+  color: var(--secondary);
+}
+
+.stat-card p {
+  font-size: 1.2rem;
+}
+
+/* TESTIMONIALS SECTION */
+#testimonials {
+  padding: 4rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+.testimonials-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: var(--primary);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 2px solid var(--secondary);
+}
+
+.testimonial-card i {
+  color: var(--secondary);
+}
+
+.testimonial-card p {
+  margin: 1rem 0;
+}
+
+.testimonial-author {
+  color: var(--secondary);
+}
